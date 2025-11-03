@@ -33,6 +33,17 @@ services:
                 cd ~/ws-scrcpy/dist
                 node ./index.js
         triggeredBy:
+          - manual
+
+    KasmVNCAndroidStudio:
+        name: Android Studio VNC
+        commands:
+            ready: pgrep xfdesktop 1>/dev/null
+            start: |
+                vnc
+                ~/android-studio/bin/studio
+            stop: vncserver -kill :1
+        triggeredBy:
           - postEnvironmentStart
     
 tasks:

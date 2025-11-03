@@ -3,54 +3,65 @@
 //
 // See https://aka.ms/devcontainer.json for more information.
 {
-	"name": "Gitpod",
+    "name": "Ona Android Dev with Android Studio",
     "remoteUser": "vscode",
-	// Use "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-	// instead of the build to use a pre-built image.
-	"build": {
+    // Use "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    // instead of the build to use a pre-built image.
+    "build": {
         "context": ".",
         "dockerfile": "Dockerfile"
     },
-	// Features add additional features to your environment. See https://containers.dev/features
-	// Beware: features are not supported on all platforms and may have unintended side-effects.
-// 	"features": {
-//       "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-//     },
-    "initializeCommand": "modprobe kvm && modprobe kvm_intel && chmod 777 /dev/kvm",
+    // Features add additional features to your environment. See https://containers.dev/features
+    // Beware: features are not supported on all platforms and may have unintended side-effects.
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "initializeCommand": "modprobe kvm && modprobe kvm_intel && chmod 777 /dev/kvm || true",
+    "postStartCommand": {
+        "vnc": "vnc"
+    },
     "privileged": true,
     "runArgs": [
+        "--shm-size=2gb", // for VNC/GUI apps
         "--cap-add=ALL",
         "--device=/dev/fuse",
         "--device=/dev/kvm",
-        "--device=/dev/snd", 
+        "--device=/dev/snd",
         "--device=/dev/video0",
         "--security-opt=apparmor:unconfined"
-  ],
-  "mounts": [
+    ],
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
         "source=/boot,target=/boot,type=bind",
         "source=/lib/modules,target=/lib/modules,type=bind"
-  ],
-
+    ],
+    "forwardPorts": [
+        5901
+    ],
     "portsAttributes": {
-    "8000": {
-      "label": "Emulator Control Web",
-      "onAutoForward": "openPreview"
+        "5901": {
+            "label": "KasmVNC",
+            "onAutoForward": "openPreview"
+        },
+        "8000": {
+            "label": "Emulator Control Web",
+            "onAutoForward": "openPreview"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "esafirm.kotlin-formatter",
+                "fwcd.kotlin",
+                "vscjava.vscode-gradle",
+                "vscjava.vscode-java-dependency",
+                "vscjava.vscode-java-test",
+                "vscjava.vscode-maven",
+                "vscjava.vscode-java-debug",
+                "redhat.java",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "nisargjhaveri.android-debug"
+            ]
+        }
     }
-},
-"customizations": {
-	"vscode": {
-		"extensions": [
-			"esafirm.kotlin-formatter",
-			"fwcd.kotlin",
-			"vscjava.vscode-gradle",
-			"vscjava.vscode-java-dependency",
-			"vscjava.vscode-java-test",
-			"vscjava.vscode-maven",
-			"vscjava.vscode-java-debug",
-			"redhat.java",
-			"VisualStudioExptTeam.vscodeintellicode",
-			"nisargjhaveri.android-debug"
-		]
-	}
-}
 }
