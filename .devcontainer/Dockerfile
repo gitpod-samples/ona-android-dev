@@ -178,9 +178,9 @@ RUN <<SCRIPT
     curl -L https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2025.2.1.7/android-studio-2025.2.1.7-linux.tar.gz -o /tmp/android-studio.tar.gz
     tar -xzf /tmp/android-studio.tar.gz
     rm /tmp/android-studio.tar.gz
-    cd android-studio/bin
-    vnc
-    ./studio.sh
+    # cd android-studio/bin
+    # vnc
+    # ./studio.sh
 
     # Create desktop entry
     # cat > $HOME/.local/share/applications/android-studio.desktop
